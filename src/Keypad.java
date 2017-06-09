@@ -4,15 +4,14 @@ import java.awt.event.*;
 
 class Keypad implements ActionListener
 {
-    JFrame f;
-    JTextField t;
-    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdiv,bmul,bsub,badd,bdec,beq,bdel,bclr,bx,by;
+    private JFrame f;
+    private JTextField t;
+    private JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdiv,bmul,bsub,badd,bdec,beq,bdel,bclr,bx,by;
 
-    static double a=0,b=0,result=0;
-    static int operator=0;
+    private static double a=0,b=0,result=0;
+    private static int operator=0;
 
-    Keypad()
-    {
+    private Keypad() {
         f=new JFrame("Calculator");
         t=new JTextField();
         b1=new JButton("1");
@@ -87,7 +86,7 @@ class Keypad implements ActionListener
         f.setLayout(null);
         f.setVisible(true);
         f.setSize(350,500);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setResizable(false);
 
         b1.addActionListener(this);
@@ -112,9 +111,8 @@ class Keypad implements ActionListener
         by.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource()==b1)
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == b1)
             t.setText(t.getText().concat("1"));
 
         if(e.getSource()==b2)
