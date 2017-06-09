@@ -1,7 +1,7 @@
 import java.util.*;
 import javax.script.*;
 
-public class EquationSolver {
+public class Equation {
     public static void main(String[] args) throws ScriptException {
         Scanner console = new Scanner(System.in);
         int[] points1 = getPoints(getEquation(console), 1, 10);
