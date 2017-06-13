@@ -1,1 +1,1 @@
-# Equation Sover
+# Graphulator
