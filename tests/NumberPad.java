@@ -20,6 +20,7 @@ public class NumberPad implements ActionListener {
   }
 
   private void getFrame() {
+    /* Initialize main frame, with its properties. */
     frame = new JFrame("Number Pad");
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,12 +29,14 @@ public class NumberPad implements ActionListener {
   }
 
   private JButton getButton(JButton button, Font font) {
+    /* Method returns a button with a font and added to ActionListener. */
     button.setFont(font);
     button.addActionListener(this);
     return button;
   }
 
   private ArrayList<JButton> getSection(String[] buttonNames) {
+    /* Returns a 'section', an ArrayList of JButton objects. */
     ArrayList<JButton> section = new ArrayList<JButton>();
     Font buttonFont = new Font("Arial", Font.PLAIN, 25);
     JButton button;
@@ -48,6 +51,7 @@ public class NumberPad implements ActionListener {
   }
 
   private void addComponents() {
+    /* Adds all components to the contents pane. */
     contentPane = new JPanel(new GridBagLayout());
     frame.setContentPane(contentPane);
     GridBagConstraints constraints = new GridBagConstraints();
@@ -64,6 +68,5 @@ public class NumberPad implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
-
   }
 }
