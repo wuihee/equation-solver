@@ -7,7 +7,7 @@ public class NumberPad implements ActionListener {
   private String equation = "";
   private JFrame frame;
   private JPanel contentPane;
-  private JTextField screen;
+  private JTextField keypadScreen;
   private ArrayList<JButton> basicButtons;
   private ArrayList<JButton> operatorButtons;
   private String[] basicNames = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0", ".", "="};
@@ -26,6 +26,7 @@ public class NumberPad implements ActionListener {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
     frame.setSize(1000, 1200);
+    addComponents();
   }
 
   private JButton getButton(JButton button, Font font) {
@@ -35,7 +36,7 @@ public class NumberPad implements ActionListener {
     return button;
   }
 
-  private ArrayList<JButton> getSection(String[] buttonNames) {
+  private ArrayList<JButton> getButtonSection(String[] buttonNames) {
     /* Returns a 'section', an ArrayList of JButton objects. */
     ArrayList<JButton> section = new ArrayList<JButton>();
     Font buttonFont = new Font("Arial", Font.PLAIN, 25);
@@ -50,21 +51,45 @@ public class NumberPad implements ActionListener {
     return section;
   }
 
+  private JPanel addButtonSection(JPanel contentPane, ArrayList<JButton> buttons, int gridx, int gridy) {
+    GridBagConstraints constraints = new GridBagConstraints();
+    for (int i = 0; i < buttons.size(); i++) {
+      int row = i / 3;
+      int column = i % 3;
+      JButton b = buttons.get(i);
+      constraints.gridx = column + gridx;
+      constraints.gridy = row + gridy;
+      constraints.ipadx = 60;
+      constraints.ipady = 60;
+      constraints.insets = new Insets(5, 5, 5, 5);
+      contentPane.add(b, constraints);
+    }
+    return contentPane;
+  }
+
+  private JPanel addKeypadScreen(JPanel contentPane, int gridx, int gridy) {
+    GridBagConstraints constraints = new GridBagConstraints();
+    keypadScreen = new JTextField(20);
+    // keypadScreen.setEditable(false);
+    constraints.gridx = gridx;
+    constraints.gridy = gridy;
+    constraints.gridwidth = 3;  // TEMP
+    constraints.ipadx = 150;
+    constraints.ipady = 50;
+    contentPane.add(keypadScreen, constraints);
+    return contentPane;
+  }
+
   private void addComponents() {
     /* Adds all components to the contents pane. */
     contentPane = new JPanel(new GridBagLayout());
+    contentPane = addKeypadScreen(contentPane, 0, 0);
+    contentPane = addButtonSection(contentPane, getButtonSection(basicNames), 0, 1);
+
+    operatorButtons = getButtonSection(operatorNames);
+
     frame.setContentPane(contentPane);
-    GridBagConstraints constraints = new GridBagConstraints();
-
-    screen = new JTextField(20);
-    basicButtons = getSection(basicNames);
-    operatorButtons = getSection(operatorNames);
-
-    constraints.gridx = 0;
-    constraints.gridy = 0;
-    constraints.gridwidth = 3;
-    constraints.gridheight = 3;
-    contentPane.add(screen, constraints);
+    frame.revalidate();  // Refreshes JFrame.
   }
 
   public void actionPerformed(ActionEvent e) {
