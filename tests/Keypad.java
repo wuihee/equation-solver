@@ -15,9 +15,11 @@ public class Keypad implements ActionListener {
     "1", "2", "3","+", "-",
     "0", ".", "(", ")", "="
   };
-  private String[] numberButtons = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-  private String[] operatorButtons = {"*", "/", "+", "-", ".", "(", ")"};
-  private String[] calculatorButtons = {"AC", "DEL", "="};
+  private final String[] NUMBER_BUTTONS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+  private final String[] OPERATOR_BUTTONS = {"+", "-", "*", "/"};
+  private final String CLEAR = "AC";
+  private final String DELETE = "DEL";
+  private final String EQUAL = "=";
 
   Keypad() {
     getFrame();
@@ -72,7 +74,7 @@ public class Keypad implements ActionListener {
 
     keypadScreen.setEditable(false);
     keypadScreen.setFont(screenFont);
-    keypadScreen.setText("y = ");
+    // keypadScreen.setText("y = ");
     constraints.gridx = gridx;
     constraints.gridy = gridy;
     constraints.gridwidth = width;
@@ -97,13 +99,35 @@ public class Keypad implements ActionListener {
     frame.revalidate();  // Refreshes JFrame.
   }
 
+  private void updateScreen() {
+    String text = "";
+    text += equation.getEquation() + equation.getTerm();
+    keypadScreen.setText(text);
+  }
+
   public void actionPerformed(ActionEvent e) {
-    String buttonPressed;
+    String buttonPressed = "";
     for (JButton b : keypadButtons) {
       if (e.getSource() == b) {
-        buttonPressed = b.getText();
+        buttonPressed = b.getText();  // Get the button pressed.
+      }
+    }
+    // Add button pressed to current term in equation if button pressed is a number.
+    for (String b : NUMBER_BUTTONS) {
+      if (buttonPressed.equals(b)) {
+        equation.addToTerm(buttonPressed);
+      }
+    }
+    // Add term to equation if button pressed is an operator.
+    for (String b : OPERATOR_BUTTONS) {
+      if (buttonPressed.equals(b)) {
         equation.addTerm(buttonPressed);
       }
     }
+    if (buttonPressed.equals(CLEAR)) {
+      equation.clear();
+    }
+
+    updateScreen();
   }
 }
