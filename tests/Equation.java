@@ -1,4 +1,3 @@
-//import java.util.*;
 import javax.script.*;
 
 public class Equation {
@@ -53,12 +52,42 @@ public class Equation {
     currentTerm = "";
   }
 
-  public void evaluate() throws ScriptException {
+  private static int evalString(String expression) throws ScriptException {
+      ScriptEngineManager mgr = new ScriptEngineManager();
+      ScriptEngine engine = mgr.getEngineByName("JavaScript");
+      return (int) engine.eval(expression);
+  }
+
+  public double evaluate() throws ScriptException {
     equation += currentTerm;  // Add current term.
-    ScriptEngineManager mgr = new ScriptEngineManager();
-    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+    double ans = evalString(equation);
     clear();
-    System.out.println(engine.eval(equation));
+    return ans;
+  }
+
+  public void getPoints(int start, int end) throws ScriptException {
+    System.out.println("Hello");
+    if (!equation.contains("x")) {
+      evaluate();
+    }
+    else {
+      System.out.println("Test 2");
+      int len = Math.abs(start - end) + 1;
+      int[] xPoints = new int[len];
+      int[] yPoints = new int[len];
+      int count = 0;
+
+      for (int i = start; i < end; i++) {
+          String coefficient = "*" + i;
+          String expression = equation.replace("x", coefficient);
+          xPoints[count] = evalString(expression);
+          yPoints[count] = i;
+          count++;
+      }
+
+      System.out.println(xPoints);
+      System.out.println(yPoints);
+    }
   }
 
   public String getTerm() {

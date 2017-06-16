@@ -14,7 +14,8 @@ public class Keypad implements ActionListener {
     "7", "8", "9", "DEL", "AC",
     "4", "5", "6", "*", "/",
     "1", "2", "3","+", "-",
-    "0", ".", "(", ")", "="
+    "0", ".", "(", ")", "x",
+    "=", "G"
   };
 
   private void getFrame() {
@@ -65,6 +66,7 @@ public class Keypad implements ActionListener {
 
     keypadScreen.setEditable(false);
     keypadScreen.setFont(screenFont);
+    keypadScreen.setText("y=");
     constraints.gridx = gridx;
     constraints.gridy = gridy;
     constraints.gridwidth = width;
@@ -90,36 +92,11 @@ public class Keypad implements ActionListener {
   }
 
   private void updateScreen() {
+    /* Updates equation on keypad screen with new terms and operations. */
     String text = "y=";
     text += equation.getEquation() + equation.getTerm();
     keypadScreen.setText(text);
   }
-
-  /*private void updateEquation(String buttonPressed) throws ScriptException {
-    // Add button pressed to current term in equation if button pressed is a number.
-    for (String b : NUMBER_BUTTONS) {
-      if (buttonPressed.equals(b)) {
-        equation.addToTerm(buttonPressed);
-      }
-    }
-    // Add term to equation if button pressed is an operator.
-    for (String b : OPERATOR_BUTTONS) {
-      if (buttonPressed.equals(b)) {
-        equation.addTerm(buttonPressed);
-      }
-    }
-    if (buttonPressed.equals(CLEAR)) {
-      equation.clear();
-    }
-    if (buttonPressed.equals(DELETE)) {
-      equation.delete();
-    }
-    if (buttonPressed.equals(EQUAL)) {
-      equation.evaluate();
-    }
-
-    updateScreen();
-  }*/
 
   public void createAndShowGUI() {
     getFrame();
