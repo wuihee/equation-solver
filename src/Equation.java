@@ -1,38 +1,111 @@
-import java.util.*;
 import javax.script.*;
 
 public class Equation {
-    public static void main(String[] args) throws ScriptException {
-        Scanner console = new Scanner(System.in);
-        int[] points1 = getPoints(getEquation(console), 1, 10);
-        System.out.println(Arrays.toString(points1));
+  private String equation = "";
+  private String currentTerm = "";
+
+  public Equation(String equation) {
+    this.equation = equation;
+  }
+
+  public Equation() {
+  }
+
+  public void addToTerm(String number) {
+    /* Add the given number to the current term. */
+    if (number.equals(".")) {
+      if (!currentTerm.contains(".")) {
+        currentTerm += number;
+      }
+    }
+    else {
+      currentTerm += number;
+    }
+  }
+
+  public void addTerm(String operation) {
+    /* Given an operation, add the current term. */
+    if (currentTerm.equals("")) {  // Adds minus sign at the beginning of the expression.
+      if (operation.equals("-")) {
+        equation += operation;  // Add minus sign even if operation is empty.
+      }
+    }
+    else {
+      // Converts String to double and back to String to ensure numbers are always doubles, which prevents error.
+      currentTerm = Double.toString(Double.parseDouble(currentTerm));
+      equation += currentTerm;
+      equation += operation;
+      currentTerm = "";  // Reset current term.
+    }
+  }
+
+  public void delete() {
+    /* Delete previous item in equation or current term. */
+    if (!currentTerm.equals("")) {
+      currentTerm = currentTerm.substring(0, currentTerm.length() - 1);
+    }
+    else if (currentTerm.equals("") && !equation.equals("")) {
+      equation = equation.substring(0, equation.length() - 1);
+    }
+  }
+
+  public void clear() {
+    equation = "";
+    currentTerm = "";
+  }
+
+  private static double evalString(String expression) throws ScriptException {
+      ScriptEngineManager mgr = new ScriptEngineManager();
+      ScriptEngine engine = mgr.getEngineByName("JavaScript");
+      double ans = (double) engine.eval(expression);
+      return ans;
+  }
+
+  public double evaluate() {
+    /* Evaluate the value of the current equation/expression. */
+    try {
+      equation += currentTerm;  // Add current term.
+      double ans = evalString(equation);
+      clear();
+      return ans;
+    }
+    catch (ScriptException e) {
+      System.out.println(e);
+      clear();
+      return -1.0;
+    }
+  }
+
+  public double[] getPoints(double start, double end) throws ScriptException {
+    equation += currentTerm;  // Add current term.
+    int len = (int) Math.abs(start - end) + 1;
+    double[] xPoints = new double[len];
+    double[] yPoints = new double[len];
+
+    if (equation.contains("x")) {
+      int count = 0;
+      for (double i = start; i < end; i++) {
+          String coefficient = Double.toString(i);
+          String expression = equation.replace("x", coefficient);
+          xPoints[count] = evalString(expression);
+          yPoints[count] = i;
+          count++;
+      }
     }
 
-    private static int[] getPoints(String equation, int start, int end) throws ScriptException {
-        int len = Math.abs(start - end) + 1;
-        int[] xPoints = new int[len];
-        int[] yPoints = new int[len];
-        int count = 0;
+    clear();
+    return xPoints;
+  }
 
-        for (int i = start; i < end; i++) {
-            String coefficient = " * " + i;
-            String expression = equation.replace("x", coefficient);
-            xPoints[count] = evalString(expression);
-            yPoints[count] = i;
-            count++;
-        }
+  public String getTerm() {
+    return currentTerm;
+  }
 
-        return xPoints;
-    }
+  public String getEquation() {
+    return equation;
+  }
 
-    private static String getEquation(Scanner console) {
-        System.out.print("Enter Equation (Use Whitespace): ");
-        return "y = " + console.nextLine();
-    }
-
-    private static int evalString(String expression) throws ScriptException {
-        ScriptEngineManager mgr = new ScriptEngineManager();
-        ScriptEngine engine = mgr.getEngineByName("JavaScript");
-        return (int) engine.eval(expression);
-    }
+  public String toString() {
+    return equation;
+  }
 }

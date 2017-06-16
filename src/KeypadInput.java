@@ -1,3 +1,4 @@
+import java.util.*;
 import javax.script.*;
 
 public class KeypadInput {
@@ -33,7 +34,8 @@ public class KeypadInput {
     }
     if (buttonPressed.equals(GRAPH)) {
       System.out.println("Graphing Points");
-      equation.getPoints(1, 50);
+      double[] points = equation.getPoints(1.0, 20.0);
+      System.out.println(Arrays.toString(points));
     }
 
     return equation;

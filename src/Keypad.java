@@ -1,222 +1,119 @@
-import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import javax.script.*;
+import javax.swing.*;
 
+public class Keypad implements ActionListener {
+  Equation equation = new Equation();
+  private JFrame frame;
+  private JPanel contentPane;
+  private JTextField keypadScreen;
+  private ArrayList<JButton> keypadButtons;
+  private String[] buttonNames = {
+    "7", "8", "9", "DEL", "AC",
+    "4", "5", "6", "*", "/",
+    "1", "2", "3","+", "-",
+    "0", ".", "(", ")", "x",
+    "=", "G"
+  };
 
-class Keypad implements ActionListener
-{
-    private JFrame f;
-    private JTextField t;
-    private JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdiv,bmul,bsub,badd,bdec,beq,bdel,bclr,bx,by;
+  private void getFrame() {
+    /* Initialize main frame, with its properties. */
+    frame = new JFrame("Keypad");
+    frame.setLocationRelativeTo(null);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+    frame.setSize(1000, 1200);
+  }
 
-    private static double a=0,b=0,result=0;
-    private static int operator=0;
+  private ArrayList<JButton> getButtonSection(String[] buttonNames) {
+    /* Returns an ArrayList of JButton objects. */
+    ArrayList<JButton> buttonSection = new ArrayList<JButton>();
+    Font buttonFont = new Font("Arial", Font.PLAIN, 25);
 
-    private Keypad() {
-        f=new JFrame("Calculator");
-        t=new JTextField();
-        b1=new JButton("1");
-        b2=new JButton("2");
-        b3=new JButton("3");
-        b4=new JButton("4");
-        b5=new JButton("5");
-        b6=new JButton("6");
-        b7=new JButton("7");
-        b8=new JButton("8");
-        b9=new JButton("9");
-        b0=new JButton("0");
-        bdiv=new JButton("/");
-        bmul=new JButton("*");
-        bsub=new JButton("-");
-        badd=new JButton("+");
-        bdec=new JButton(".");
-        beq=new JButton("=");
-        bdel=new JButton("Delete");
-        bclr=new JButton("Clear");
-        bx=new JButton("X");
-        by=new JButton("Y");
-
-        t.setBounds(30,40,280,30);
-        b7.setBounds(40,100,50,40);
-        b8.setBounds(110,100,50,40);
-        b9.setBounds(180,100,50,40);
-        bdiv.setBounds(250,100,50,40);
-
-        b4.setBounds(40,170,50,40);
-        b5.setBounds(110,170,50,40);
-        b6.setBounds(180,170,50,40);
-        bmul.setBounds(250,170,50,40);
-
-        b1.setBounds(40,240,50,40);
-        b2.setBounds(110,240,50,40);
-        b3.setBounds(180,240,50,40);
-        bsub.setBounds(250,240,50,40);
-
-        bdec.setBounds(40,310,50,40);
-        b0.setBounds(110,310,50,40);
-        beq.setBounds(180,310,50,40);
-        badd.setBounds(250,310,50,40);
-
-        bdel.setBounds(120,380,100,40);
-        bclr.setBounds(220,380,100,40);
-        bx.setBounds(70,380,50,40);
-        by.setBounds(20,380,50,40);
-
-        f.add(t);
-        f.add(b7);
-        f.add(b8);
-        f.add(b9);
-        f.add(bdiv);
-        f.add(b4);
-        f.add(b5);
-        f.add(b6);
-        f.add(bmul);
-        f.add(b1);
-        f.add(b2);
-        f.add(b3);
-        f.add(bsub);
-        f.add(bdec);
-        f.add(b0);
-        f.add(beq);
-        f.add(badd);
-        f.add(bdel);
-        f.add(bclr);
-        f.add(bx);
-        f.add(by);
-
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setSize(350,500);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setResizable(false);
-
-        b1.addActionListener(this);
-        b2.addActionListener(this);
-        b3.addActionListener(this);
-        b4.addActionListener(this);
-        b5.addActionListener(this);
-        b6.addActionListener(this);
-        b7.addActionListener(this);
-        b8.addActionListener(this);
-        b9.addActionListener(this);
-        b0.addActionListener(this);
-        badd.addActionListener(this);
-        bdiv.addActionListener(this);
-        bmul.addActionListener(this);
-        bsub.addActionListener(this);
-        bdec.addActionListener(this);
-        beq.addActionListener(this);
-        bdel.addActionListener(this);
-        bclr.addActionListener(this);
-        bx.addActionListener(this);
-        by.addActionListener(this);
+    for (String name : buttonNames) {
+       JButton button = new JButton(name);
+       button.setFont(buttonFont);
+       button.addActionListener(this);
+       buttonSection.add(button);
     }
+    return buttonSection;
+  }
 
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == b1)
-            t.setText(t.getText().concat("1"));
-
-        if(e.getSource()==b2)
-            t.setText(t.getText().concat("2"));
-
-        if(e.getSource()==b3)
-            t.setText(t.getText().concat("3"));
-
-        if(e.getSource()==b4)
-            t.setText(t.getText().concat("4"));
-
-        if(e.getSource()==b5)
-            t.setText(t.getText().concat("5"));
-
-        if(e.getSource()==b6)
-            t.setText(t.getText().concat("6"));
-
-        if(e.getSource()==b7)
-            t.setText(t.getText().concat("7"));
-
-        if(e.getSource()==b8)
-            t.setText(t.getText().concat("8"));
-
-        if(e.getSource()==b9)
-            t.setText(t.getText().concat("9"));
-
-        if(e.getSource()==b0)
-            t.setText(t.getText().concat("0"));
-
-        if(e.getSource()==bdec)
-            t.setText(t.getText().concat("."));
-
-        if(e.getSource()==bx)
-            t.setText(t.getText().concat("X"));
-
-        if(e.getSource()==by)
-            t.setText(t.getText().concat("Y"));
-
-        if(e.getSource()==badd)
-        {
-            a=Double.parseDouble(t.getText());
-            operator=1;
-            t.setText("");
-        }
-
-        if(e.getSource()==bsub)
-        {
-            a=Double.parseDouble(t.getText());
-            operator=2;
-            t.setText("");
-        }
-
-        if(e.getSource()==bmul)
-        {
-            a=Double.parseDouble(t.getText());
-            operator=3;
-            t.setText("");
-        }
-
-        if(e.getSource()==bdiv)
-        {
-            a=Double.parseDouble(t.getText());
-            operator=4;
-            t.setText("");
-        }
-
-        if(e.getSource()==beq)
-        {
-            b=Double.parseDouble(t.getText());
-
-            switch(operator)
-            {
-                case 1: result=a+b;
-                    break;
-
-                case 2: result=a-b;
-                    break;
-
-                case 3: result=a*b;
-                    break;
-
-                case 4: result=a/b;
-                    break;
-
-                default: result=0;
-            }
-
-            t.setText(""+result);
-        }
-
-        if(e.getSource()==bclr)
-            t.setText("");
-
-        if(e.getSource()==bdel)
-        {
-            String s=t.getText();
-            t.setText("");
-            for(int i=0;i<s.length()-1;i++)
-                t.setText(t.getText()+s.charAt(i));
-        }
+  private JPanel addButtonSection(JPanel contentPane, ArrayList<JButton> buttons, int numCols, int numRows, int gridx, int gridy) {
+    GridBagConstraints constraints = new GridBagConstraints();
+    for (int i = 0; i < buttons.size(); i++) {
+      int col = i % numCols;  // To find current column (x value).
+      int row = i / numCols;  // To find current row (y value).
+      JButton b = buttons.get(i);
+      constraints.gridx = col + gridx;
+      constraints.gridy = row + gridy;
+      constraints.fill = GridBagConstraints.BOTH;
+      constraints.ipadx = 60;
+      constraints.ipady = 60;
+      // Create algorithm to evenly space all buttons.
+      // constraints.insets = new Insets(5, 5, 5, 5);
+      contentPane.add(b, constraints);
     }
+    return contentPane;
+  }
 
-    public static void main(String...s)
-    {
-        new Keypad();
+  private JPanel addKeypadScreen(JPanel contentPane, int width, int gridx, int gridy) {
+    GridBagConstraints constraints = new GridBagConstraints();
+    Font screenFont = new Font("Arial", Font.PLAIN, 30);
+    keypadScreen = new JTextField(20);
+
+    keypadScreen.setEditable(false);
+    keypadScreen.setFont(screenFont);
+    keypadScreen.setText("y=");
+    constraints.gridx = gridx;
+    constraints.gridy = gridy;
+    constraints.gridwidth = width;
+    constraints.fill = GridBagConstraints.BOTH;
+    constraints.ipadx = 150;
+    constraints.ipady = 50;
+    contentPane.add(keypadScreen, constraints);
+    return contentPane;
+  }
+
+  private void addComponents() {
+    /* Adds all components to the contents pane. */
+    int numCols = 5;
+    int numRows = 4;
+    keypadButtons = getButtonSection(buttonNames);
+
+    contentPane = new JPanel(new GridBagLayout());
+    contentPane = addKeypadScreen(contentPane, numCols, 0, 0);
+    contentPane = addButtonSection(contentPane, keypadButtons, numCols, numRows, 0, 1);
+
+    frame.setContentPane(contentPane);
+    frame.revalidate();  // Refreshes JFrame.
+  }
+
+  private void updateScreen() {
+    /* Updates equation on keypad screen with new terms and operations. */
+    String text = "y=";
+    text += equation.getEquation() + equation.getTerm();
+    keypadScreen.setText(text);
+  }
+
+  public void createAndShowGUI() {
+    getFrame();
+    addComponents();
+  }
+
+  public void actionPerformed(ActionEvent event) {
+    for (JButton b : keypadButtons) {
+      if (event.getSource() == b) {
+        try {
+          equation = KeypadInput.updateEquation(equation, b.getText());
+        }
+        catch (ScriptException e) {
+          System.out.println(e);
+        }
+      }
     }
+    updateScreen();
+  }
 }
