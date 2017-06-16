@@ -54,8 +54,10 @@ public class Equation {
   }
 
   public void evaluate() throws ScriptException {
+    equation += currentTerm;  // Add current term.
     ScriptEngineManager mgr = new ScriptEngineManager();
     ScriptEngine engine = mgr.getEngineByName("JavaScript");
+    clear();
     System.out.println(engine.eval(equation));
   }
 

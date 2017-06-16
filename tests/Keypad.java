@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import javax.script.*;
 import javax.swing.*;
 
 public class Keypad implements ActionListener {
@@ -15,16 +16,6 @@ public class Keypad implements ActionListener {
     "1", "2", "3","+", "-",
     "0", ".", "(", ")", "="
   };
-  private final String[] NUMBER_BUTTONS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "(", ")"};
-  private final String[] OPERATOR_BUTTONS = {"+", "-", "*", "/"};
-  private final String CLEAR = "AC";
-  private final String DELETE = "DEL";
-  private final String EQUAL = "=";
-
-  Keypad() {
-    getFrame();
-    addComponents();
-  }
 
   private void getFrame() {
     /* Initialize main frame, with its properties. */
@@ -74,7 +65,6 @@ public class Keypad implements ActionListener {
 
     keypadScreen.setEditable(false);
     keypadScreen.setFont(screenFont);
-    // keypadScreen.setText("y = ");
     constraints.gridx = gridx;
     constraints.gridy = gridy;
     constraints.gridwidth = width;
@@ -100,18 +90,12 @@ public class Keypad implements ActionListener {
   }
 
   private void updateScreen() {
-    String text = "";
+    String text = "y=";
     text += equation.getEquation() + equation.getTerm();
     keypadScreen.setText(text);
   }
 
-  public void actionPerformed(ActionEvent e){
-    String buttonPressed = "";
-    for (JButton b : keypadButtons) {
-      if (e.getSource() == b) {
-        buttonPressed = b.getText();  // Get the button pressed.
-      }
-    }
+  /*private void updateEquation(String buttonPressed) throws ScriptException {
     // Add button pressed to current term in equation if button pressed is a number.
     for (String b : NUMBER_BUTTONS) {
       if (buttonPressed.equals(b)) {
@@ -130,7 +114,29 @@ public class Keypad implements ActionListener {
     if (buttonPressed.equals(DELETE)) {
       equation.delete();
     }
+    if (buttonPressed.equals(EQUAL)) {
+      equation.evaluate();
+    }
 
+    updateScreen();
+  }*/
+
+  public void createAndShowGUI() {
+    getFrame();
+    addComponents();
+  }
+
+  public void actionPerformed(ActionEvent event) {
+    for (JButton b : keypadButtons) {
+      if (event.getSource() == b) {
+        try {
+          equation = KeypadInput.updateEquation(equation, b.getText());
+        }
+        catch (ScriptException e) {
+          System.out.println(e);
+        }
+      }
+    }
     updateScreen();
   }
 }

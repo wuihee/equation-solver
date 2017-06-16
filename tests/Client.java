@@ -1,5 +1,6 @@
 public class Client {
   public static void main(String[] args) {
-    new Keypad();
+    Keypad keypad = new Keypad();
+    keypad.createAndShowGUI();
   }
 }
