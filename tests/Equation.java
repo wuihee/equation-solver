@@ -28,9 +28,24 @@ public class Equation {
     }
   }
 
+  public void delete() {
+    /* Delete previous item in equation or current term. */
+    if (!currentTerm.equals("")) {
+      currentTerm = currentTerm.substring(0, currentTerm.length() - 1);
+    }
+    else if (currentTerm.equals("") && !equation.equals("")) {
+      equation = equation.substring(0, equation.length() - 1);
+    }
+  }
+
   public void clear() {
     equation = "";
     currentTerm = "";
+  }
+
+  public void evaluate() {
+    
+    System.out.println("Evaluate");
   }
 
   public String getTerm() {

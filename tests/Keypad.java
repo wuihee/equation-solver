@@ -127,6 +127,9 @@ public class Keypad implements ActionListener {
     if (buttonPressed.equals(CLEAR)) {
       equation.clear();
     }
+    if (buttonPressed.equals(DELETE)) {
+      equation.delete();
+    }
 
     updateScreen();
   }
