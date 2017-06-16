@@ -28,11 +28,24 @@ public class Eval {
   }
 
   public static double evalStrings(ArrayList<String> expression) {
-    return 1.0;
+    final String MULTIPLY = "*";
+    final String DIVIDE = "/";
+    double evaluation;
+
+    for (int i = 0; i < expression.size(); i++) {
+      String idx = expression.get(i);
+      if (idx.equals(MULTIPLY)) {
+        double prev_term = Integer.toString(expression.get(i - 1));
+        double next_term = Integer.toString(expression.get(i + 1));
+        evaluation = prev_term * next_term;
+      }
+    }
+
+    return evaluation;
   }
 
   public static void main(String[] args) {
-    ArrayList<String> processed = proccessString("12+2*20/4");
+    ArrayList<String> processed = proccessString("12*12");
     System.out.println(evalStrings(processed));
   }
 }
