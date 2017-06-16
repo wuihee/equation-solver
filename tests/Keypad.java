@@ -15,7 +15,7 @@ public class Keypad implements ActionListener {
     "1", "2", "3","+", "-",
     "0", ".", "(", ")", "="
   };
-  private final String[] NUMBER_BUTTONS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+  private final String[] NUMBER_BUTTONS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "(", ")"};
   private final String[] OPERATOR_BUTTONS = {"+", "-", "*", "/"};
   private final String CLEAR = "AC";
   private final String DELETE = "DEL";
@@ -105,7 +105,7 @@ public class Keypad implements ActionListener {
     keypadScreen.setText(text);
   }
 
-  public void actionPerformed(ActionEvent e) {
+  public void actionPerformed(ActionEvent e){
     String buttonPressed = "";
     for (JButton b : keypadButtons) {
       if (e.getSource() == b) {

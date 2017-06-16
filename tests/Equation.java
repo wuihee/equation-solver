@@ -1,3 +1,6 @@
+//import java.util.*;
+import javax.script.*;
+
 public class Equation {
   private String equation = "";
   private String currentTerm = "";
@@ -11,7 +14,14 @@ public class Equation {
 
   public void addToTerm(String number) {
     /* Add the given number to the current term. */
-    currentTerm += number;
+    if (number.equals(".")) {
+      if (!currentTerm.contains(".")) {
+        currentTerm += number;
+      }
+    }
+    else {
+      currentTerm += number;
+    }
   }
 
   public void addTerm(String operation) {
@@ -43,8 +53,10 @@ public class Equation {
     currentTerm = "";
   }
 
-  public void evaluate() {
-    System.out.println("Evaluate");
+  public void evaluate() throws ScriptException {
+    ScriptEngineManager mgr = new ScriptEngineManager();
+    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+    System.out.println(engine.eval(equation));
   }
 
   public String getTerm() {
