@@ -4,6 +4,7 @@ import java.util.*;
 import javax.swing.*;
 
 public class Keypad implements ActionListener {
+  Equation equation = new Equation();
   private JFrame frame;
   private JPanel contentPane;
   private JTextField keypadScreen;
@@ -66,8 +67,12 @@ public class Keypad implements ActionListener {
 
   private JPanel addKeypadScreen(JPanel contentPane, int width, int gridx, int gridy) {
     GridBagConstraints constraints = new GridBagConstraints();
+    Font screenFont = new Font("Arial", Font.PLAIN, 30);
     keypadScreen = new JTextField(20);
-    // keypadScreen.setEditable(false);
+
+    keypadScreen.setEditable(false);
+    keypadScreen.setFont(screenFont);
+    keypadScreen.setText("y = ");
     constraints.gridx = gridx;
     constraints.gridy = gridy;
     constraints.gridwidth = width;
@@ -93,5 +98,12 @@ public class Keypad implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
+    String buttonPressed;
+    for (JButton b : keypadButtons) {
+      if (e.getSource() == b) {
+        buttonPressed = b.getText();
+        equation.addTerm(buttonPressed);
+      }
+    }
   }
 }
