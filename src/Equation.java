@@ -9,6 +9,7 @@ public class Equation {
   }
 
   public Equation() {
+    // Empty constructor.
   }
 
   public void addToTerm(String number) {
@@ -50,15 +51,17 @@ public class Equation {
   }
 
   public void clear() {
+    /* Clear equation and current term. */
     equation = "";
     currentTerm = "";
   }
 
   private static double evalString(String expression) throws ScriptException {
-      ScriptEngineManager mgr = new ScriptEngineManager();
-      ScriptEngine engine = mgr.getEngineByName("JavaScript");
-      double ans = (double) engine.eval(expression);
-      return ans;
+    /* Method evaluates a String using JavaScript method eval. */
+    ScriptEngineManager mgr = new ScriptEngineManager();
+    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+    double ans = (double) engine.eval(expression);
+    return ans;
   }
 
   public double evaluate() {
@@ -66,7 +69,7 @@ public class Equation {
     try {
       equation += currentTerm;  // Add current term.
       double ans = evalString(equation);
-      clear();
+      clear();  // Clear equation to prevent screen inconsistencies.
       return ans;
     }
     catch (ScriptException e) {
@@ -77,16 +80,17 @@ public class Equation {
   }
 
   public double[] getPoints(double start, double end) throws ScriptException {
+    /* Method returns an array of graphing points. */
     equation += currentTerm;  // Add current term.
-    int len = (int) Math.abs(start - end) + 1;
+    int len = (int) Math.abs(start - end) + 1;  // Length from start to end.
     double[] xPoints = new double[len];
-    double[] yPoints = new double[len];
+    double[] yPoints = new double[len];  // yPoints for debugging purposes and may also be applicable later.
 
     if (equation.contains("x")) {
       int count = 0;
       for (double i = start; i < end; i++) {
           String coefficient = Double.toString(i);
-          String expression = equation.replace("x", coefficient);
+          String expression = equation.replace("x", coefficient);  // Replace x with each Y value and evaluate the String.
           xPoints[count] = evalString(expression);
           yPoints[count] = i;
           count++;
@@ -98,14 +102,17 @@ public class Equation {
   }
 
   public String getTerm() {
+    /* Return currentTerm. */
     return currentTerm;
   }
 
   public String getEquation() {
+    /* Return current equation. */
     return equation;
   }
 
   public String toString() {
+    /* Inhereted toString method. */
     return equation;
   }
 }
