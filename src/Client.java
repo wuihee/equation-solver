@@ -2,7 +2,6 @@ public class Client {
   public static void main(String[] args) {
     Keypad keypad = new Keypad();
     keypad.createAndShowGUI();  // Create a Keypad object and show GUI.
-
     /*
     Currently, the program can only calculate simple functions and its graphing function is almost non-usable.
     The next step would be to find a better way to evaluate mathematical expressions. Currently, the calculator
