@@ -1,1 +1,1 @@
-# Graphulator
+# Graphing Calculator
